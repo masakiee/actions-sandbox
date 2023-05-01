@@ -1,0 +1,29 @@
+name: YAML diff check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+env:
+  HEAD_BRANCH: ${{ github.head_ref }}
+  BASE_BRANCH: ${{ github.base_ref }}
+
+jobs:
+  yaml-diff-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout HEAD
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.HEAD_BRANCH }}
+      - run: |
+          cat packages/diff-check/yml/data.yml
+
+      - name: Checkout HEAD
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+      - run: |
+          cat packages/diff-check/yml/data.yml
